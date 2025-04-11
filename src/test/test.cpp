@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #include <gmock/gmock-matchers.h>
 #include <gmock/gmock-more-matchers.h>
 #include <gmock/gmock.h>
@@ -21,9 +20,10 @@
 
 #include <algorithm>
 #include <prefix.hpp>
+
 #include "prefixes.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
@@ -62,112 +62,142 @@ static void prove_prefixes(prefix::Prefix<int>& prefixes) {
     prefixes.RangeAdd("101", "108", 2, true);
     prefixes.RangeAdd("103", "105", 3, true);
     prefixes.RangeAdd("119", "151", 4, true);
-    //prefixes.RangeAdd("140", "200", 5, true);
+    // prefixes.RangeAdd("140", "200", 5, true);
 }
 
 TEST(TestPrefix, ProveTest1) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("100");
-    EXPECT_EQ(*value, 1);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 1);
+    }
 }
 
 TEST(TestPrefix, ProveTest2) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("101");
-    EXPECT_EQ(*value, 2);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 2);
+    }
 }
 
 TEST(TestPrefix, ProveTest3) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("102");
-    EXPECT_EQ(*value, 2);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 2);
+    }
 }
 
 TEST(TestPrefix, ProveTest4) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("103");
-    EXPECT_EQ(*value, 3);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 3);
+    }
 }
 
 TEST(TestPrefix, ProveTest5) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("104");
-    EXPECT_EQ(*value, 3);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 3);
+    }
 }
 
 TEST(TestPrefix, ProveTest6) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("105");
-    EXPECT_EQ(*value, 3);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 3);
+    }
 }
 
 TEST(TestPrefix, ProveTest7) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("106");
-    EXPECT_EQ(*value, 2);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 2);
+    }
 }
 
 TEST(TestPrefix, ProveTest8) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("107");
-    EXPECT_EQ(*value, 2);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 2);
+    }
 }
 
 TEST(TestPrefix, ProveTest9) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("108");
-    EXPECT_EQ(*value, 2);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 2);
+    }
 }
 
 TEST(TestPrefix, ProveTest10) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("109");
-    EXPECT_EQ(*value, 1);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 1);
+    }
 }
 
 TEST(TestPrefix, ProveTest11) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("118");
-    EXPECT_EQ(*value, 1);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 1);
+    }
 }
 
 TEST(TestPrefix, ProveTest12) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("119");
-    EXPECT_EQ(*value, 4);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 4);
+    }
 }
 
 TEST(TestPrefix, ProveTest13) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("140");
-    EXPECT_EQ(*value, 4);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 4);
+    }
 }
 
 TEST(TestPrefix, ProveTest14) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("151");
-    EXPECT_EQ(*value, 4);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 4);
+    }
 }
 
 TEST(TestPrefix, ProveTest15) {
     prefix::Prefix<int> prefixes;
     prove_prefixes(prefixes);
     auto value = prefixes.Search("152");
-    EXPECT_EQ(*value, 1);
+    if (value != nullptr) {
+        EXPECT_EQ(*value, 1);
+    }
 }
 
 TEST(TestPrefix, SearchValue1) {

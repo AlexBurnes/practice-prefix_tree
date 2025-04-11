@@ -15,16 +15,17 @@
 
 #pragma once
 
+#include <fmt/core.h>
+
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <map>
 #include <vector>
-#include <cmath>
-#include <memory>
-#include <algorithm>
 
 #include "sparsepp/spp.h"
-#include <fmt/core.h>
 
 //!@namespace prefix
 namespace prefix {
@@ -40,31 +41,27 @@ namespace prefix {
     //!|     ensured in the implementation of the addition ranges into the search structure.
     //!|   - Number ranges must be the same length.
 
-    template<typename Value>
+    template <typename Value>
     class Prefix {
         public:
-
             //!@typedef value_t, value type
             typedef Value value_t;
             //!@typedef value_ptr, value pointer
             typedef std::shared_ptr<value_t> value_ptr;
 
         private:
-
             //!@typedef hash_t, map<key, values> prefixes map, key is a prefix part of a range, values is list of
             //!| values defined by range
             typedef spp::sparse_hash_map<std::string, std::vector<value_ptr>> hash_t;
             //!@typedef hash_ptr, shared pointer to prefixes map
-            //FIXME replace by unique ptr
+            // FIXME replace by unique ptr
             typedef std::shared_ptr<hash_t> hash_ptr;
             //!@typedef length_keys_pair_t pair<prefix length, prefixes map> prefixes pairs
             typedef std::pair<size_t, hash_ptr> length_keys_pair_t;
 
             //!@class length_key_cmp, comparer for ordering search structure of prefixes lengthes
             struct length_key_cmp {
-                bool operator() (const size_t& lhs, const size_t& rhs) const {
-                return lhs > rhs;
-                }
+                    bool operator()(const size_t& lhs, const size_t& rhs) const { return lhs > rhs; }
             };
 
             //!@typedef length_keys_t, map<prefixes length, prefixes map, length comparer>
@@ -91,7 +88,7 @@ namespace prefix {
             //!| false forbidden
             //!@param check bool, check search structure after insert a prefix
             //!@return int, 0 ok| 1 error
-            int add(const std::string &prefix, value_ptr value, bool overlap, bool check);
+            int add(const std::string& prefix, value_ptr value, bool overlap, bool check);
 
             //!@fn build, build search structure for added ranges
             //!@return noting
@@ -104,16 +101,9 @@ namespace prefix {
                 builded = false;
             }
 
-
         public:
-
             //!@fn ctor
-            Prefix()
-            :
-                keys{std::make_shared<hash_t>()},
-                search{nullptr},
-                builded{false}
-            {}
+            Prefix() : keys{std::make_shared<hash_t>()}, search{nullptr}, builded{false} {}
 
             //!@fn dtor
             ~Prefix() {}
@@ -137,10 +127,7 @@ namespace prefix {
             //!| false forbidden
             //!@param check bool, default is not check, check search structure after insert a prefix
             //!@return int, 0 ok| 1 error
-            int RangeAdd(
-                std::string from, std::string till, value_t&& value, bool overlap = false,
-                bool check = false
-            );
+            int RangeAdd(std::string from, std::string till, value_t&& value, bool overlap = false, bool check = false);
 
             //!@fn Search, searching number in prefix tree structure
             //!@param number string, number to search
@@ -148,7 +135,7 @@ namespace prefix {
             //!@return shared_ptr, shared pointer to value
             //!| nullptr if not found a value
             //!| reference to value if value is found
-            value_ptr Search(const std::string& number, std::shared_ptr<std::string>overlap_prefix = nullptr);
+            value_ptr Search(const std::string& number, std::shared_ptr<std::string> overlap_prefix = nullptr);
 
             //!@fn SearchAll, searching number in prefix tree structure
             //!@param number string, number to search
@@ -164,10 +151,9 @@ namespace prefix {
             //!| true is overlapped
             //!| false is not
             //!@return int, 0 ok| 1 error
-            int Check(const std::string &from, const std::string &till, value_t&& value, bool overlap);
-
+            int Check(const std::string& from, const std::string& till, value_t&& value, bool overlap);
     };
 
 #include "prefix_impl.hpp"
 
-}
+}  // namespace prefix

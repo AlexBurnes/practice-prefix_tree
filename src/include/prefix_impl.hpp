@@ -15,14 +15,12 @@
 
 //!@note implementation Prefix<T>
 
-#define unless(x) if (not (x))
+#define unless(x) if (not(x))
 #define ctoi(x) (int)*x - (int)'0'
 #define itoc(x) (char)(x + (int)'0')
 
 template <typename Value>
-int Prefix<Value>::PrefixAdd(
-    const std::string& prefix, value_t&& value, bool overlap, bool check
-) {
+int Prefix<Value>::PrefixAdd(const std::string &prefix, value_t &&value, bool overlap, bool check) {
     if (check) {
         if (builded == false) build();
     }
@@ -52,31 +50,28 @@ int Prefix<Value>::add(const std::string &prefix, value_ptr value, bool overlap,
 }
 
 template <typename Value>
-int Prefix<Value>::RangeAdd(
-    std::string from, std::string till, value_t&& value_, bool overlap, bool check
-) {
-
+int Prefix<Value>::RangeAdd(std::string from, std::string till, value_t &&value_, bool overlap, bool check) {
     auto value = std::make_shared<Prefix::value_t>(value_);
 
     if (check) {
-        unless (builded) build(); //need for check
+        unless(builded) build();  // need for check
     }
 
-    //FIXME implementation
+    // FIXME implementation
 
     return 1;
 }
 
 template <typename Value>
 Prefix<Value>::value_ptr Prefix<Value>::Search(const std::string &number, std::shared_ptr<std::string> overlap_prefix) {
-    unless (builded) build();
+    unless(builded) build();
     std::string prefix;
-    size_t len = number.length();
-    //fmt::print("search '{}' length {}\n", number, len);
+    size_t      len = number.length();
+    // fmt::print("search '{}' length {}\n", number, len);
     for (auto &[length, hash] : *search) {
         if (length > len) continue;
         prefix = number.substr(0, length);
-        //fmt::print("prefix '{}' length {}\n", prefix, length);
+        // fmt::print("prefix '{}' length {}\n", prefix, length);
         if (hash->count(prefix)) {
             return (*hash)[prefix][0];
         }
@@ -85,19 +80,16 @@ Prefix<Value>::value_ptr Prefix<Value>::Search(const std::string &number, std::s
 }
 
 template <typename Value>
-std::vector<std::shared_ptr<Value>> Prefix<Value>::SearchAll(const std::string& number) {
-    unless (builded) build();
-    std::string prefix;
-    size_t len = number.length();
+std::vector<std::shared_ptr<Value>> Prefix<Value>::SearchAll(const std::string &number) {
+    unless(builded) build();
+    std::string                    prefix;
+    size_t                         len = number.length();
     std::vector<Prefix::value_ptr> values;
     for (auto &[length, hash] : *search) {
         if (length > len) continue;
         prefix = number.substr(0, length);
         if (hash->count(prefix)) {
-            for (auto &value : (*hash)[prefix]) {
-                values.push_back(value);
-            }
-
+            std::copy_backward((*hash)[prefix].begin(), (*hash)[prefix].end(), values.end());
         }
     }
     return values;
@@ -106,23 +98,23 @@ std::vector<std::shared_ptr<Value>> Prefix<Value>::SearchAll(const std::string& 
 template <typename Value>
 int Prefix<Value>::build() {
     if (builded) return 1;
-    unless (search == nullptr) erase();
+    unless(search == nullptr) erase();
     search = std::make_unique<search_t>();
 
-    //typedef std::map<size_t, hash_ptr, length_key_cmp> length_keys_t;
+    // typedef std::map<size_t, hash_ptr, length_key_cmp> length_keys_t;
     length_keys_t length_keys;
 
     // typedef spp::sparse_hash_map<std::string, std::vector<value_ptr>> hash_t;
 
     // key size_t, key_values  std::vector<value_ptr>
     for (auto &[key, key_values] : *keys) {
-        unless (length_keys.count(key.length())) length_keys[key.length()] = std::make_shared<hash_t>();
+        unless(length_keys.count(key.length())) length_keys[key.length()] = std::make_shared<hash_t>();
 
         auto length_hash = length_keys[key.length()];
 
         (*length_hash)[key] = key_values;
     }
-    //ok now sort keys by length in descend order and push into search_t
+    // ok now sort keys by length in descend order and push into search_t
     for (auto &[key, values] : length_keys) {
         search->push_back({key, std::move(values)});
     }
@@ -131,8 +123,8 @@ int Prefix<Value>::build() {
 }
 
 template <typename Value>
-int Prefix<Value>::Check(const std::string &from, const std::string &till, value_t&& value, bool overlap) {
-    unless (builded) build();
+int Prefix<Value>::Check(const std::string &from, const std::string &till, value_t &&value, bool overlap) {
+    unless(builded) build();
     errno = 0;
     auto from_n = strtoll(from.c_str(), nullptr, 10);
 
@@ -154,19 +146,18 @@ int Prefix<Value>::Check(const std::string &from, const std::string &till, value
     }
 
     std::shared_ptr<std::string> prefix;
-    std::string number;
-    fmt::print("check range from '{}' till '{}', numbers {}", from, till, till_n-from_n);
+    fmt::print("check range from '{}' till '{}', numbers {}", from, till, till_n - from_n);
     {
         while (from_n < till_n) {
-            number = fmt::format("{}", from_n);
-            //FIXME for overlap require SearchAll and check if value contains in vector<value_ptr>!!!
+            std::string number = fmt::format("{}", from_n);
+            // FIXME for overlap require SearchAll and check if value contains in vector<value_ptr>!!!
             value_ptr found = Search(number, prefix);
-            unless (found) {
+            unless(found) {
                 fmt::print("ERROR: number '{}' not found", number);
                 return 0;
             }
-            unless (overlap) {
-                unless (*found == value) {
+            unless(overlap) {
+                unless(*found == value) {
                     fmt::print("ERROR: number '{}' founded by prefix '{}', but value not equal", number, *prefix);
                     return 0;
                 }

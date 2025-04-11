@@ -13,14 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #include <benchmark/benchmark.h>
 #include <gperftools/malloc_hook.h>
 #include <malloc.h>
+
 #include <cstring>
+#include <prefix.hpp>
 #include <vector>
 
-#include <prefix.hpp>
 #include "prefixes.hpp"
 
 benchmark::IterationCount g_num_new = 0;
@@ -53,7 +53,6 @@ auto                      new_hook = [](const void*, size_t size) {
         state.counters["min_new_B"] = g_min_size_new;                                             \
     }
 
-
 namespace bm = benchmark;
 
 unsigned int seed = time(nullptr);
@@ -77,4 +76,3 @@ static void prefix_search(bm::State& state) {
 }
 
 BENCHMARK(prefix_search)->Args({size_t(1e6)});
-
