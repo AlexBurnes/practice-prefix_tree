@@ -27,6 +27,8 @@ find_package(GTest)
 find_package(gperftools)
 find_package(benchmark)
 
+include(sparsepp.cmake)
+
 enable_testing()
 
 add_subdirectory(src)

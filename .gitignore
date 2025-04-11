@@ -2,6 +2,7 @@ CMakeUserPresets.json
 *.csv
 *.json
 .build
+3thd
 bin
 docs
 Doxyfile
