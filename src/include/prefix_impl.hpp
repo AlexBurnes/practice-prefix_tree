@@ -54,7 +54,7 @@ int Prefix<Value>::RangeAdd(std::string from, std::string till, value_t &&value_
     auto value = std::make_shared<Prefix::value_t>(value_);
 
     if (check) {
-        unless(builded) build();  // need for check
+        unless(builded) build();
     }
 
     // FIXME implementation
