@@ -2,7 +2,19 @@
 
 **Search value in a prefix tree by number**
 
-Imlements prefix search tree algorigthm, search values belonging to numeric range or numeric prefix.
+Implements prefix search tree algorigthm, search values belonging to numeric range or numeric prefix.
+
+## Tasks
+
+* Implement RangeAdd method of Prefix<T> class
+* Do not use any macros in source code, i.e replace ctoi and itoi by functions or lambdas, or delete 
+them if not will be used in RangeAdd methods
+* Replace shared_ptr used for Prefix<T>::hash_t on unique_ptr
+* Run tests, run benchmarks on different container libraries. 
+
+Unit tests and descriptions for the declarations of the Grouping class in the header file will help in the implementation.
+See example how to write tests and benchmarks at [Sort Keys Example](git@github.com:AlexBurnes/practice-sort_keys.git)
+
 
 ## Author
 
